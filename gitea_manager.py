@@ -23,6 +23,7 @@ import os
 import sys
 import json
 import logging
+import argparse
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from urllib.parse import urlparse
@@ -166,7 +167,7 @@ class GiteaManager:
         repos = self.get_user_repos()
         return any(repo['name'] == name for repo in repos)
     
-    def get_repo_url(self, name: str) -> str:
+    def get_repo_url(self, name: str, use_ssh: bool = True) -> str:
         """
         Get the repository URL for cloning.
         
@@ -174,13 +175,23 @@ class GiteaManager:
         ----------
         name : str
             Name of the repository
+        use_ssh : bool, optional
+            Whether to use SSH URL (default: True)
         
         Returns
         -------
         str
             The repository URL
         """
-        return f"{self.gitea_url}/{self.get_username()}/{name}.git"
+        if use_ssh:
+            # Extract hostname from gitea_url and use SSH port 2222
+            hostname = self.gitea_url.replace('http://', '').replace('https://', '')
+            # Remove any existing port from hostname
+            if ':' in hostname:
+                hostname = hostname.split(':')[0]
+            return f"ssh://git@{hostname}:2222/{self.get_username()}/{name}.git"
+        else:
+            return f"{self.gitea_url}/{self.get_username()}/{name}.git"
     
     def get_username(self) -> str:
         """
@@ -278,6 +289,80 @@ class GitRepoManager:
             self.logger.error(f"Error adding gitea remote to {repo_path}: {e}")
             return False
     
+    def push_to_gitea(self, repo_path: str, branch: str = 'main') -> bool:
+        """
+        Push the current branch to the gitea remote.
+        
+        Parameters
+        ----------
+        repo_path : str
+            Path to the local repository
+        branch : str, optional
+            Branch to push (default: 'main')
+        
+        Returns
+        -------
+        bool
+            True if successful, False otherwise
+        """
+        try:
+            repo = Repo(repo_path)
+            
+            # Check if gitea remote exists
+            if 'gitea' not in repo.remotes:
+                self.logger.error(f"No gitea remote found in {repo_path}")
+                return False
+            
+            # Check if repository has any commits
+            try:
+                repo.head.commit
+            except Exception:
+                self.logger.warning(f"Repository {repo_path} has no commits, skipping push")
+                return True
+            
+            # Get the current branch
+            try:
+                current_branch = repo.active_branch.name
+            except Exception:
+                # If no active branch (detached HEAD), try to use the specified branch
+                current_branch = branch
+            
+            # Check if branch exists
+            try:
+                repo.branches[current_branch]
+            except Exception:
+                self.logger.warning(f"Branch {current_branch} does not exist in {repo_path}, skipping push")
+                return True
+            
+            # Push to gitea remote
+            gitea_remote = repo.remotes.gitea
+            try:
+                push_info = gitea_remote.push(f"{current_branch}:{current_branch}")
+                
+                # Check if push was successful
+                for info in push_info:
+                    if info.flags & info.ERROR:
+                        self.logger.error(f"Error pushing {current_branch} to gitea: {info.summary}")
+                        return False
+                    elif info.flags & info.UP_TO_DATE:
+                        self.logger.info(f"Branch {current_branch} already up to date on gitea")
+                    elif info.flags & info.FAST_FORWARD:
+                        self.logger.info(f"Fast-forwarded {current_branch} on gitea")
+                    elif info.flags & info.FORCED_UPDATE:
+                        self.logger.info(f"Force-updated {current_branch} on gitea")
+                    else:
+                        self.logger.info(f"Pushed {current_branch} to gitea")
+                
+                return True
+                
+            except Exception as push_error:
+                self.logger.error(f"Push operation failed for {repo_path}: {push_error}")
+                return False
+            
+        except Exception as e:
+            self.logger.error(f"Error pushing to gitea from {repo_path}: {e}")
+            return False
+    
     def get_repo_name_from_github_url(self, github_url: str) -> Optional[str]:
         """
         Extract repository name from GitHub URL.
@@ -337,10 +422,24 @@ def find_git_repositories(base_path: str) -> List[str]:
 
 def main() -> None:
     """Main function to orchestrate the Gitea repository management."""
+    parser = argparse.ArgumentParser(description='Manage Gitea repositories for GitHub mirroring')
+    parser.add_argument('--push', action='store_true', 
+                       help='Push all repositories to Gitea after setup')
+    parser.add_argument('--sync-only', action='store_true',
+                       help='Only sync existing repositories (skip creation)')
+    parser.add_argument('--base-path', default='/projects',
+                       help='Base path to search for git repositories (default: /projects)')
+    parser.add_argument('--gitea-url', default='http://nas.local:3000',
+                       help='Gitea server URL (default: http://nas.local:3000)')
+    parser.add_argument('--token-file', default='/projects/gitea.token',
+                       help='Path to Gitea token file (default: /projects/gitea.token)')
+    
+    args = parser.parse_args()
+    
     # Configuration
-    gitea_url = "http://nas.local:3000"
-    token_file = "/projects/gitea.token"
-    base_path = "/projects"
+    gitea_url = args.gitea_url
+    token_file = args.token_file
+    base_path = args.base_path
     
     # Read Gitea token
     try:
@@ -370,6 +469,7 @@ def main() -> None:
     # Process each repository
     processed_count = 0
     created_count = 0
+    pushed_count = 0
     
     for repo_path in git_repos:
         print(f"\nProcessing: {repo_path}")
@@ -391,7 +491,9 @@ def main() -> None:
         print(f"  Repository name: {repo_name}")
         
         # Check if repository exists on Gitea
-        if not gitea_manager.repo_exists(repo_name):
+        repo_exists = gitea_manager.repo_exists(repo_name)
+        
+        if not args.sync_only and not repo_exists:
             print(f"  Creating repository on Gitea...")
             repo_info = gitea_manager.create_repo(
                 repo_name,
@@ -404,20 +506,34 @@ def main() -> None:
             else:
                 print(f"  ✗ Failed to create repository")
                 continue
-        else:
+        elif repo_exists:
             print(f"  Repository already exists on Gitea")
+        else:
+            print(f"  Repository does not exist on Gitea (sync-only mode)")
+            continue
         
-        # Add gitea remote
-        gitea_repo_url = gitea_manager.get_repo_url(repo_name)
+        # Add gitea remote (use SSH for pushing)
+        gitea_repo_url = gitea_manager.get_repo_url(repo_name, use_ssh=True)
         if git_manager.add_gitea_remote(repo_path, gitea_repo_url):
             print(f"  ✓ Added gitea remote: {gitea_repo_url}")
             processed_count += 1
+            
+            # Push to Gitea if requested
+            if args.push:
+                print(f"  Pushing to Gitea...")
+                if git_manager.push_to_gitea(repo_path):
+                    pushed_count += 1
+                    print(f"  ✓ Pushed successfully")
+                else:
+                    print(f"  ✗ Failed to push")
         else:
             print(f"  ✗ Failed to add gitea remote")
     
     print(f"\n=== Summary ===")
     print(f"Total repositories processed: {processed_count}")
     print(f"New repositories created: {created_count}")
+    if args.push:
+        print(f"Repositories pushed: {pushed_count}")
     print(f"Gitea server: {gitea_url}")
 
 
