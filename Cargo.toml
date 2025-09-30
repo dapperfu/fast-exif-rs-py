@@ -1,0 +1,34 @@
+[package]
+name = "fast-exif-rs-py"
+version = "0.2.3"
+edition = "2021"
+description = "Python bindings for fast-exif-rs - Fast EXIF reader and writer"
+license = "MIT"
+repository = "https://github.com/dapperfu/fast-exif-rs"
+keywords = ["exif", "metadata", "image", "video", "python", "bindings"]
+categories = ["multimedia", "development-tools", "python"]
+
+[lib]
+name = "fast_exif_rs_py"
+crate-type = ["cdylib"]
+
+[dependencies]
+# Core dependency on the pure Rust crate
+fast-exif-reader = { path = "../fast-exif-rs" }
+
+# Python bindings
+pyo3 = { version = "0.21", features = ["extension-module"] }
+
+# Python package metadata (used by maturin)
+[package.metadata.maturin]
+name = "fast-exif-rs-py"
+description = "Python bindings for fast-exif-rs - Fast EXIF reader and writer"
+readme = "README.md"
+license = "MIT"
+authors = ["fast-exif-rs contributors"]
+keywords = ["exif", "metadata", "image", "video", "python"]
+
+[[package.metadata.maturin.urls]]
+Homepage = "https://github.com/dapperfu/fast-exif-rs"
+Repository = "https://github.com/dapperfu/fast-exif-rs"
+Documentation = "https://github.com/dapperfu/fast-exif-rs"
