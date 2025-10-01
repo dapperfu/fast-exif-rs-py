@@ -14,7 +14,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 # Core dependency on the pure Rust crate
-fast-exif-reader = { path = "../fast-exif-rs" }
+fast-exif-reader = { git = "https://github.com/dapperfu/fast-exif-rs.git" }
 
 # Python bindings
 pyo3 = { version = "0.21", features = ["extension-module"] }
