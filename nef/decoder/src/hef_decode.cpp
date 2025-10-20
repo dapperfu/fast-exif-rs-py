@@ -87,31 +87,48 @@ bool hefraw::assemble_image_cfa16(const ImageHeader& ih,
     if (ih.tiles.empty()) return false;
     out_cfa.assign((size_t)ih.width * (size_t)ih.height, 0);
     
-    // Process the main RAW tile (usually the largest)
-    const TileHeader* main_tile = nullptr;
-    for (const auto& tile : ih.tiles) {
-        if (tile.length > 1000000) { // > 1MB likely main RAW
-            main_tile = &tile;
-            break;
+    // Process ALL tiles and combine them properly
+    bool any_success = false;
+    
+    for (size_t tile_idx = 0; tile_idx < ih.tiles.size(); tile_idx++) {
+        const auto& tile = ih.tiles[tile_idx];
+        
+        if ((size_t)tile.offset + (size_t)tile.length > file_len) continue;
+        const uint8_t* bs = file_data + tile.offset;
+        
+        std::vector<uint16_t> tile_data;
+        
+        // Try TicoRAW decoding first
+        if (decode_tile_to_cfa16(bs, tile.length, tile, tile_data, ih.width)) {
+            // TicoRAW decoding succeeded - copy all data
+            for (size_t y = 0; y < ih.height && y < tile.height; y++) {
+                for (size_t x = 0; x < ih.width && x < tile.width; x++) {
+                    out_cfa[y * ih.width + x] = tile_data[y * ih.width + x];
+                }
+            }
+            any_success = true;
+        } else {
+            // Try uncompressed 14-bit data
+            tile_data.assign((size_t)tile.width * (size_t)tile.height, 0);
+            if (tile.length >= (size_t)tile.width * (size_t)tile.height * 2) {
+                // Assume 14-bit little-endian data
+                for (size_t i = 0; i < tile_data.size() && i * 2 + 1 < tile.length; i++) {
+                    uint16_t val = bs[i * 2] | (bs[i * 2 + 1] << 8);
+                    tile_data[i] = val & 0x3FFF; // 14-bit mask
+                }
+                
+                // Copy uncompressed data
+                for (size_t y = 0; y < ih.height && y < tile.height; y++) {
+                    for (size_t x = 0; x < ih.width && x < tile.width; x++) {
+                        out_cfa[y * ih.width + x] = tile_data[y * ih.width + x];
+                    }
+                }
+                any_success = true;
+            }
         }
     }
     
-    if (!main_tile) return false;
-    
-    if ((size_t)main_tile->offset + (size_t)main_tile->length > file_len) return false;
-    const uint8_t* bs = file_data + main_tile->offset;
-    
-    std::vector<uint16_t> tile;
-    if (!decode_tile_to_cfa16(bs, main_tile->length, *main_tile, tile, ih.width)) return false;
-    
-    // Copy tile data to output
-    for (size_t y = 0; y < ih.height; y++) {
-        for (size_t x = 0; x < ih.width; x++) {
-            out_cfa[y * ih.width + x] = tile[y * ih.width + x];
-        }
-    }
-    
-    return true;
+    return any_success;
 }
 
 
