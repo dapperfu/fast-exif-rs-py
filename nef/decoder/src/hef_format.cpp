@@ -49,7 +49,7 @@ bool hefraw::parse_hef_headers(const uint8_t* data, size_t size, ImageHeader& ou
             for (int i=0;i<sn;i++) {
                 int tag = rd16(sp+0);
                 int type = rd16(sp+2); (void)type;
-                uint32_t count = rd32(sp+4);
+                uint32_t count = rd32(sp+4); (void)count;
                 uint32_t val = rd32(sp+8);
                 if (tag == 0x0111) so = val;
                 else if (tag == 0x0117) sbc = val;
@@ -61,8 +61,34 @@ bool hefraw::parse_hef_headers(const uint8_t* data, size_t size, ImageHeader& ou
                 out.tiles.push_back(th);
             }
         }
+        
+        // Try additional SubIFDs for more tiles
+        for (int sub_idx = 1; sub_idx < 6; sub_idx++) {
+            if (sub_ifds + 4 * (sub_idx + 1) <= size) {
+                uint32_t sub_off = rd32(data + sub_ifds + 4 * sub_idx);
+                if (sub_off && sub_off + 2 <= size) {
+                    const uint8_t* sp = data + sub_off;
+                    int sn = rd16(sp); sp += 2;
+                    uint32_t so=0, sbc=0;
+                    for (int i=0;i<sn;i++) {
+                        int tag = rd16(sp+0);
+                        int type = rd16(sp+2); (void)type;
+                        uint32_t count = rd32(sp+4); (void)count;
+                        uint32_t val = rd32(sp+8);
+                        if (tag == 0x0111) so = val;
+                        else if (tag == 0x0117) sbc = val;
+                        sp += 12;
+                    }
+                    if (so && sbc && so + sbc <= size) {
+                        TileHeader th{};
+                        th.offset = so; th.length = sbc; th.width = (uint16_t)width; th.height=(uint16_t)height; th.bitDepth=14; th.cfaPattern=0;
+                        out.tiles.push_back(th);
+                    }
+                }
+            }
+        }
     }
-    return true;
+    return !out.tiles.empty(); // require at least one tile
 }
 
 

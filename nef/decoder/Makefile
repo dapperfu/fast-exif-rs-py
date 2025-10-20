@@ -2,9 +2,9 @@ CXX:=c++
 CXXFLAGS:=-std=c++17 -O2 -Wall -Wextra
 INCLUDES:=-Iinclude
 
-.PHONY: all clean
+.PHONY: all clean tools
 
-all: libhefraw.a
+all: libhefraw.a tools
 
 libhefraw.a: src/hef_bitstream.o src/hef_format.o src/hef_decode.o src/hef_export.o
 	ar rcs $@ $^
@@ -21,7 +21,12 @@ src/hef_decode.o: src/hef_decode.cpp include/hef_decode.hpp include/hef_bitstrea
 src/hef_export.o: src/hef_export.cpp include/hef_export.hpp
 	${CXX} ${CXXFLAGS} ${INCLUDES} -c -o $@ $<
 
+tools: tools/hef_to_tiff
+
+tools/hef_to_tiff: tools/hef_to_tiff.cpp libhefraw.a
+	${CXX} ${CXXFLAGS} ${INCLUDES} -o $@ $< -L. -lhefraw
+
 clean:
-	rm -f src/*.o libhefraw.a
+	rm -f src/*.o libhefraw.a tools/hef_to_tiff
 
 

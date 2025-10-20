@@ -5,8 +5,11 @@ Dump HE* structure using existing TIFF parser.
 from __future__ import annotations
 import argparse
 import sys
+import os
 from typing import Tuple
 
+# Add parent directory to path to import nef_probe
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tools.nef_probe import TiffReader  # reuse
 
 def main() -> None:
