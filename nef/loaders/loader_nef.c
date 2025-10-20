@@ -6,8 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdio.h>
 
 #include <Imlib2.h>
+#include <Imlib2_Loader.h>
 
 /* Loader exported symbols expected by imlib2 runtime */
 
@@ -63,16 +65,13 @@ static int looks_like_nikon_he_star(FILE *fp)
     return found;
 }
 
-/* Heuristic: read IFD0 Compression tag (0x0103) to detect non-standard values.
- * Classic NEF often signals baseline/old JPEG; HE/HE* may use vendor/compressed markers.
- * For now, we only detect NEF container and return unsupported to indicate custom loader present. */
-
-int load(ImlibImage *im, ImlibProgressFunction progress, char progress_granularity, char immediate_load)
+int load(ImlibImage *im, int load_data)
 {
-    FILE *fp = fopen(im->file, "rb");
+    const char *filename = imlib_image_get_filename();
+    if (!filename) return 0;
+    
+    FILE *fp = fopen(filename, "rb");
     if (!fp) {
-        imlib_context_set_image(im);
-        im->loader = NULL;
         return 0;
     }
     uint8_t hdr[16];
@@ -82,57 +81,25 @@ int load(ImlibImage *im, ImlibProgressFunction progress, char progress_granulari
         return 0; /* not our format */
     }
 
-    int be = (hdr[0] == 'M');
-    uint32_t ifd0 = 0;
-    fread(hdr, 1, 4, fp);
-    ifd0 = read_u32(hdr, be);
-    /* Minimal parse: seek to IFD0 and read number of entries */
-    if (fseek(fp, (long)ifd0, SEEK_SET) != 0) {
-        fclose(fp);
-        return 0;
-    }
-    uint8_t tmp[2];
-    if (fread(tmp, 1, 2, fp) != 2) { fclose(fp); return 0; }
-    int num = read_u16(tmp, be);
-
-    /* Iterate tags to find Compression (0x0103) and basic size */
-    int width = 0, height = 0;
-    int compression = -1;
-    for (int i = 0; i < num; i++) {
-        uint8_t ent[12];
-        if (fread(ent, 1, 12, fp) != 12) { fclose(fp); return 0; }
-        int tag = read_u16(ent, be);
-        int type = read_u16(ent + 2, be);
-        (void)type;
-        uint32_t count = read_u32(ent + 4, be);
-        uint32_t val = read_u32(ent + 8, be);
-        (void)count;
-        if (tag == 0x0100) width = (int)val; /* image width */
-        else if (tag == 0x0101) height = (int)val; /* image length */
-        else if (tag == 0x0103) compression = (int)val; /* compression */
-    }
     /* Only claim files that look like Nikon HE*; otherwise, let other loaders handle. */
     int is_he_star = looks_like_nikon_he_star(fp);
     fclose(fp);
-    if (!is_he_star) {
-        return 0; /* not our specific HE* variant */
+    
+    /* If not HE*, bail early */
+    if (!is_he_star) { 
+        return 0; 
     }
 
-    /* At this point we identified NEF container and HE* marker. Decoder not yet implemented. */
-    imlib_context_set_image(im);
-    im->w = (width > 0 ? width : 0);
-    im->h = (height > 0 ? height : 0);
-
-    /* Signal that format is recognized but not loadable yet */
-    imlib_set_error(IMLIB_LOAD_ERROR_UNKNOWN);
+    /* For now, we detect HE* but don't load it (decoder integration pending) */
+    /* This allows the loader to be present but defer to other loaders */
     return 0;
 }
 
-int save(ImlibImage *im, ImlibProgressFunction progress, char progress_granularity)
+int save(ImlibImage *im)
 {
-    (void)im; (void)progress; (void)progress_granularity;
-    imlib_set_error(IMLIB_LOAD_ERROR_NO_LOADER_FOR_FILE_FORMAT);
+    (void)im;
     return 0;
 }
 
-
+/* Define the loader module */
+IMLIB_LOADER(formats, load, save);
