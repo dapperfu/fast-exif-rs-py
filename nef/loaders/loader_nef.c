@@ -25,6 +25,8 @@ static int is_tiff_magic(const uint8_t *b, int len)
     return 0;
 }
 
+/* Helper functions for TIFF parsing - currently unused but kept for future expansion */
+#if 0
 static int read_u16(const uint8_t *p, int be)
 {
     return be ? (p[0] << 8) | p[1] : (p[1] << 8) | p[0];
@@ -36,6 +38,7 @@ static uint32_t read_u32(const uint8_t *p, int be)
         return ((uint32_t)p[0] << 24) | ((uint32_t)p[1] << 16) | ((uint32_t)p[2] << 8) | (uint32_t)p[3];
     return ((uint32_t)p[3] << 24) | ((uint32_t)p[2] << 16) | ((uint32_t)p[1] << 8) | (uint32_t)p[0];
 }
+#endif
 
 /* Heuristic detection of Nikon HE* quality marker.
  * We conservatively scan an upper-bound slice for the ASCII token "HE*" or
@@ -67,6 +70,9 @@ static int looks_like_nikon_he_star(FILE *fp)
 
 int load(ImlibImage *im, int load_data)
 {
+    (void)im;      /* Suppress unused parameter warning */
+    (void)load_data; /* Suppress unused parameter warning */
+    
     const char *filename = imlib_image_get_filename();
     if (!filename) return 0;
     
