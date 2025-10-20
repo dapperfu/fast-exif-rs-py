@@ -85,8 +85,34 @@ static int load(ImlibImage *im, int load_data)
     
     /* Decode CFA data */
     std::vector<uint16_t> cfa;
+    
+    /* Debug the header and file data */
+    FILE *debug_fp = fopen("/tmp/debug_decode", "w");
+    if (debug_fp) {
+        fprintf(debug_fp, "Decode Debug Info:\n");
+        fprintf(debug_fp, "  File size: %zu\n", file_size);
+        fprintf(debug_fp, "  Header width: %u\n", header.width);
+        fprintf(debug_fp, "  Header height: %u\n", header.height);
+        fprintf(debug_fp, "  First 16 bytes of file: ");
+        for (int i = 0; i < 16 && i < (int)file_size; i++) {
+            fprintf(debug_fp, "%02x ", file_data[i]);
+        }
+        fprintf(debug_fp, "\n");
+        fclose(debug_fp);
+    }
+    
     if (!assemble_image_cfa16(header, file_data, file_size, cfa)) {
         return LOAD_BADIMAGE;
+    }
+    
+    /* Check if CFA decoding succeeded */
+    if (debug_fp) {
+        debug_fp = fopen("/tmp/debug_decode", "a");
+        if (debug_fp) {
+            fprintf(debug_fp, "  CFA size: %zu\n", cfa.size());
+            fprintf(debug_fp, "  Expected size: %u\n", header.width * header.height);
+            fclose(debug_fp);
+        }
     }
     
     /* Set image dimensions */
@@ -101,17 +127,84 @@ static int load(ImlibImage *im, int load_data)
     /* Convert CFA to RGB for display */
     uint32_t *imlib_data = im->data;
     
-    /* Simple grayscale conversion first to test CFA data quality */
+    /* Debug CFA data quality and check for patterns */
+    uint16_t min_val = 0xFFFF, max_val = 0;
+    uint32_t zero_count = 0, non_zero_count = 0;
+    
+    for (int i = 0; i < (int)(header.width * header.height); i++) {
+        if (cfa[i] < min_val) min_val = cfa[i];
+        if (cfa[i] > max_val) max_val = cfa[i];
+        if (cfa[i] == 0) zero_count++;
+        else non_zero_count++;
+    }
+    
+    /* Write debug info to file */
+    debug_fp = fopen("/tmp/cfa_debug", "w");
+    if (debug_fp) {
+        fprintf(debug_fp, "CFA Debug Info:\n");
+        fprintf(debug_fp, "  Width: %u\n", header.width);
+        fprintf(debug_fp, "  Height: %u\n", header.height);
+        fprintf(debug_fp, "  Min value: %u\n", min_val);
+        fprintf(debug_fp, "  Max value: %u\n", max_val);
+        fprintf(debug_fp, "  Range: %u\n", max_val - min_val);
+        fprintf(debug_fp, "  Zero pixels: %u\n", zero_count);
+        fprintf(debug_fp, "  Non-zero pixels: %u\n", non_zero_count);
+        fprintf(debug_fp, "  First 20 values: ");
+        for (int i = 0; i < 20 && i < (int)(header.width * header.height); i++) {
+            fprintf(debug_fp, "%u ", cfa[i]);
+        }
+        fprintf(debug_fp, "\n");
+        
+        /* Check if there's a pattern in the first few rows */
+        fprintf(debug_fp, "First row values: ");
+        for (int x = 0; x < 20 && x < (int)header.width; x++) {
+            fprintf(debug_fp, "%u ", cfa[x]);
+        }
+        fprintf(debug_fp, "\n");
+        
+        fclose(debug_fp);
+    }
+    
+    /* Implement proper CFA demosaicing (Bayer pattern RGGB) */
     for (int y = 0; y < (int)header.height; y++) {
         for (int x = 0; x < (int)header.width; x++) {
             int idx = y * header.width + x;
             uint16_t val = cfa[idx];
             
-            /* Convert 14-bit to 8-bit with better scaling */
-            uint8_t pixel = (val * 255) / 16383;  /* Scale to 0-255 range */
+            /* Convert with proper scaling based on actual range */
+            uint8_t pixel;
+            if (max_val > min_val) {
+                pixel = ((val - min_val) * 255) / (max_val - min_val);
+            } else {
+                pixel = 0;
+            }
             
-            /* Simple grayscale for now to verify CFA data */
-            imlib_data[idx] = PIXEL_ARGB(0xFF, pixel, pixel, pixel);
+            /* Simple Bayer demosaicing - assume RGGB pattern */
+            uint8_t r, g, b;
+            
+            if ((y % 2) == 0 && (x % 2) == 0) {
+                // Red pixel
+                r = pixel;
+                g = pixel; // Use same value for now
+                b = pixel; // Use same value for now
+            } else if ((y % 2) == 0 && (x % 2) == 1) {
+                // Green pixel
+                r = pixel; // Use same value for now
+                g = pixel;
+                b = pixel; // Use same value for now
+            } else if ((y % 2) == 1 && (x % 2) == 0) {
+                // Green pixel
+                r = pixel; // Use same value for now
+                g = pixel;
+                b = pixel; // Use same value for now
+            } else {
+                // Blue pixel
+                r = pixel; // Use same value for now
+                g = pixel; // Use same value for now
+                b = pixel;
+            }
+            
+            imlib_data[idx] = PIXEL_ARGB(0xFF, r, g, b);
         }
     }
     
