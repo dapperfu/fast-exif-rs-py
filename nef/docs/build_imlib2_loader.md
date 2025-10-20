@@ -1,4 +1,4 @@
-Imlib2 NEF Loader (HE/HE* scaffold)
+Imlib2 NEF Loader (Nikon HE* specific scaffold)
 
 Build
 
@@ -11,7 +11,7 @@ make
 
 This produces loader_nef.so in the same directory.
 
-Run feh with userspace loader path
+Run feh with userspace loader path (claims only HE* NEF; classic NEF remains with default loaders)
 
 ```
 IMLIB2_LOADER_PATH=/projects/nef/loaders feh /path/to/file.NEF

@@ -1,5 +1,6 @@
-/* Minimal imlib2 loader skeleton for Nikon NEF (HE/HE* focus).
- * Currently detects NEF and reports unsupported for HE/HE* until decoder is ready.
+/* Minimal imlib2 loader skeleton for Nikon NEF High Efficiency star (HE*).
+ * Specifically targets HE* stills. Classic NEF should be left to existing loaders.
+ * For now, we only detect HE* and report unsupported (decoder pending).
  */
 
 #include <stdlib.h>
@@ -10,11 +11,7 @@
 
 /* Loader exported symbols expected by imlib2 runtime */
 
-const char *formats[] = {
-    "nef",
-    "nrw",
-    NULL
-};
+const char *formats[] = { "nef", NULL };
 
 /* Simple TIFF magic check */
 static int is_tiff_magic(const uint8_t *b, int len)
@@ -36,6 +33,34 @@ static uint32_t read_u32(const uint8_t *p, int be)
     if (be)
         return ((uint32_t)p[0] << 24) | ((uint32_t)p[1] << 16) | ((uint32_t)p[2] << 8) | (uint32_t)p[3];
     return ((uint32_t)p[3] << 24) | ((uint32_t)p[2] << 16) | ((uint32_t)p[1] << 8) | (uint32_t)p[0];
+}
+
+/* Heuristic detection of Nikon HE* quality marker.
+ * We conservatively scan an upper-bound slice for the ASCII token "HE*" or
+ * the phrase "High Efficiency*" which appears in some MakerNote/XMP payloads.
+ */
+static int looks_like_nikon_he_star(FILE *fp)
+{
+    long cur = ftell(fp);
+    if (cur < 0) return 0;
+    if (fseek(fp, 0, SEEK_SET) != 0) return 0;
+    const size_t MAX_SCAN = 1 << 20; /* 1 MiB */
+    uint8_t *buf = (uint8_t *)malloc(MAX_SCAN);
+    if (!buf) { (void)fseek(fp, cur, SEEK_SET); return 0; }
+    size_t n = fread(buf, 1, MAX_SCAN, fp);
+    /* Restore file position */
+    (void)fseek(fp, cur, SEEK_SET);
+    if (n == 0) { free(buf); return 0; }
+    const char *needle1 = "HE*";
+    const char *needle2 = "High Efficiency*";
+    int found = 0;
+    /* Simple substring search */
+    for (size_t i = 0; i + 2 < n; i++) {
+        if (!found && i + 3 <= n && memcmp(buf + i, needle1, 3) == 0) { found = 1; break; }
+        if (!found && i + 16 <= n && memcmp(buf + i, needle2, 16) == 0) { found = 1; break; }
+    }
+    free(buf);
+    return found;
 }
 
 /* Heuristic: read IFD0 Compression tag (0x0103) to detect non-standard values.
@@ -86,9 +111,14 @@ int load(ImlibImage *im, ImlibProgressFunction progress, char progress_granulari
         else if (tag == 0x0101) height = (int)val; /* image length */
         else if (tag == 0x0103) compression = (int)val; /* compression */
     }
+    /* Only claim files that look like Nikon HE*; otherwise, let other loaders handle. */
+    int is_he_star = looks_like_nikon_he_star(fp);
     fclose(fp);
+    if (!is_he_star) {
+        return 0; /* not our specific HE* variant */
+    }
 
-    /* At this point we know it's a NEF/NRW container. We do not yet decode HE/HE*. */
+    /* At this point we identified NEF container and HE* marker. Decoder not yet implemented. */
     imlib_context_set_image(im);
     im->w = (width > 0 ? width : 0);
     im->h = (height > 0 ? height : 0);
