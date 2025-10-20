@@ -82,16 +82,18 @@ int main(int argc, char* argv[]) {
     uint16_t num_entries = 8;
     out.write(reinterpret_cast<char*>(&num_entries), 2);
     
-    // ImageWidth (0x0100)
+    // ImageWidth (0x0100) - write actual width
     uint8_t width_entry[] = {0x00, 0x01, 0x03, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    *reinterpret_cast<uint32_t*>(width_entry + 8) = header.width;
     out.write(reinterpret_cast<char*>(width_entry), 12);
     
-    // ImageLength (0x0101) 
+    // ImageLength (0x0101) - write actual height
     uint8_t height_entry[] = {0x01, 0x01, 0x03, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    *reinterpret_cast<uint32_t*>(height_entry + 8) = header.height;
     out.write(reinterpret_cast<char*>(height_entry), 12);
     
-    // BitsPerSample (0x0102)
-    uint8_t bps_entry[] = {0x02, 0x01, 0x03, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    // BitsPerSample (0x0102) - 16 bits
+    uint8_t bps_entry[] = {0x02, 0x01, 0x03, 0x00, 0x01, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00};
     out.write(reinterpret_cast<char*>(bps_entry), 12);
     
     // Compression (0x0103) - uncompressed
@@ -102,16 +104,20 @@ int main(int argc, char* argv[]) {
     uint8_t photo_entry[] = {0x06, 0x01, 0x03, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00};
     out.write(reinterpret_cast<char*>(photo_entry), 12);
     
-    // StripOffsets (0x0111)
+    // StripOffsets (0x0111) - offset to image data
+    uint32_t data_offset = 8 + 2 + (8 * 12) + 4; // header + num_entries + entries + next_ifd
     uint8_t so_entry[] = {0x11, 0x01, 0x04, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    *reinterpret_cast<uint32_t*>(so_entry + 8) = data_offset;
     out.write(reinterpret_cast<char*>(so_entry), 12);
     
     // SamplesPerPixel (0x0115)
     uint8_t spp_entry[] = {0x15, 0x01, 0x03, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00};
     out.write(reinterpret_cast<char*>(spp_entry), 12);
     
-    // StripByteCounts (0x0117)
+    // StripByteCounts (0x0117) - size of image data
+    uint32_t data_size = cfa.size() * 2;
     uint8_t sbc_entry[] = {0x17, 0x01, 0x04, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    *reinterpret_cast<uint32_t*>(sbc_entry + 8) = data_size;
     out.write(reinterpret_cast<char*>(sbc_entry), 12);
     
     // Next IFD offset (0)
