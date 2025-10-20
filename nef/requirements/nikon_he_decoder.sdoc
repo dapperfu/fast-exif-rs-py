@@ -1,0 +1,107 @@
+SPECIFICATION "Nikon HE/HE* RAW Viewing Support"
+VERSION "1.0"
+
+INFO
+  TITLE: "Enable viewing Nikon HE/HE* RAW stills in feh/imlib2"
+  STATUS: "Draft"
+  CREATED_ON: "2025-10-20"
+  MODIFIED_ON: "2025-10-20"
+END
+
+SECTION "Scope and Objectives"
+  [REQUIREMENT]
+    UID: REQ-OBJ-0001
+    TITLE: Goal definition
+    STATEMENT: The system SHALL enable viewing Nikon High Efficiency (HE/HE*) RAW still images in feh via imlib2 on Linux without using proprietary SDKs.
+    RATIONALE: Users require open-source viewing of Nikon HE/HE* stills.
+    STATUS: DRAFT
+  END
+
+  [REQUIREMENT]
+    UID: REQ-OBJ-0002
+    TITLE: Immediate preview fallback
+    STATEMENT: The system SHALL provide an immediate preview fallback by extracting and displaying the embedded JPEG preview from HE/HE* NEF files.
+    RATIONALE: Guarantees near-term usability while full decoding is developed.
+    STATUS: DRAFT
+  END
+
+  [REQUIREMENT]
+    UID: REQ-OBJ-0003
+    TITLE: True RAW decoding path
+    STATEMENT: The system SHOULD implement a clean-room reverse-engineered decoder for Nikon HE/HE* compressed RAW to reconstruct a 14-bit CFA image for visualization.
+    RATIONALE: Enables accurate RAW rendering beyond preview.
+    STATUS: DRAFT
+  END
+END
+
+SECTION "Constraints and Non-Functional"
+  [REQUIREMENT]
+    UID: REQ-CON-0001
+    TITLE: Userspace only
+    STATEMENT: The implementation SHALL operate entirely in userspace without sudo and without modifying system Python.
+    RATIONALE: Complies with environment constraints.
+    STATUS: DRAFT
+  END
+
+  [REQUIREMENT]
+    UID: REQ-CON-0002
+    TITLE: Virtual environment
+    STATEMENT: All Python tooling SHALL use a virtual environment named venv, and Makefile references SHALL use venv/bin/* paths.
+    RATIONALE: Avoids system pollution and ensures reproducibility.
+    STATUS: DRAFT
+  END
+
+  [REQUIREMENT]
+    UID: REQ-CON-0003
+    TITLE: Typing and documentation
+    STATEMENT: All Python scripts SHALL have full mypy-compliant typing and numpy-style docstrings.
+    RATIONALE: Code quality and maintainability.
+    STATUS: DRAFT
+  END
+END
+
+SECTION "Interfaces and Deliverables"
+  [REQUIREMENT]
+    UID: REQ-INT-0001
+    TITLE: Probing tool
+    STATEMENT: Provide tools/nef_probe.py to enumerate TIFF IFDs, key tags, and detect HE/HE*.
+    RATIONALE: Aids corpus analysis and debugging.
+    STATUS: DRAFT
+  END
+
+  [REQUIREMENT]
+    UID: REQ-INT-0002
+    TITLE: Preview extraction tool
+    STATEMENT: Provide tools/nef_extract_preview.py to extract the embedded JPEG preview without external binaries.
+    RATIONALE: Enables immediate viewing in feh via a wrapper flow.
+    STATUS: DRAFT
+  END
+
+  [REQUIREMENT]
+    UID: REQ-INT-0003
+    TITLE: imlib2 integration
+    STATEMENT: Provide an imlib2 loader or fallback logic to use HE/HE* decoder output, with preview fallback on failure.
+    RATIONALE: Integrates with feh display path.
+    STATUS: DRAFT
+  END
+END
+
+SECTION "Acceptance Criteria"
+  [REQUIREMENT]
+    UID: REQ-ACC-0001
+    TITLE: feh display success
+    STATEMENT: feh SHALL display HE/HE* NEF files either via decoded RAW or via embedded JPEG fallback with correct orientation.
+    RATIONALE: Verifies end-user goal.
+    STATUS: DRAFT
+  END
+
+  [REQUIREMENT]
+    UID: REQ-ACC-0002
+    TITLE: Tooling behavior
+    STATEMENT: nef_probe.py SHALL identify HE/HE* characteristics; nef_extract_preview.py SHALL reliably output a JPEG for input HE/HE* NEFs.
+    RATIONALE: Validates intermediate deliverables.
+    STATUS: DRAFT
+  END
+END
+
+
