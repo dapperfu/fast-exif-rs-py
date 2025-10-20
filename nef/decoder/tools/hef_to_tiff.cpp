@@ -35,10 +35,20 @@ int main(int argc, char* argv[]) {
         std::cerr << "Failed to parse HE* headers\n";
         std::cerr << "File size: " << file_size << "\n";
         std::cerr << "First 8 bytes: ";
-        for (int i = 0; i < 8 && i < file_size; i++) {
+        for (int i = 0; i < 8 && i < (int)file_size; i++) {
             std::cerr << std::hex << (int)file_data[i] << " ";
         }
         std::cerr << std::dec << "\n";
+        
+        // Debug: try to find SubIFDs manually
+        if (file_size >= 8) {
+            uint32_t ifd0 = file_data[4] | (file_data[5] << 8) | (file_data[6] << 16) | (file_data[7] << 24);
+            std::cerr << "IFD0 offset: " << ifd0 << "\n";
+            if (ifd0 + 2 < file_size) {
+                uint16_t num_entries = file_data[ifd0] | (file_data[ifd0+1] << 8);
+                std::cerr << "IFD0 entries: " << num_entries << "\n";
+            }
+        }
         return 1;
     }
     
