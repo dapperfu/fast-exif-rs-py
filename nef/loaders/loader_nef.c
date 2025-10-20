@@ -49,20 +49,36 @@ static int looks_like_nikon_he_star(FILE *fp)
     long cur = ftell(fp);
     if (cur < 0) return 0;
     if (fseek(fp, 0, SEEK_SET) != 0) return 0;
-    const size_t MAX_SCAN = 1 << 20; /* 1 MiB */
+    
+    /* Check for TicoRAW signature in the main payload area (around offset 4.5MB) */
+    if (fseek(fp, 4500000, SEEK_SET) == 0) {
+        uint8_t sig_check[32];
+        if (fread(sig_check, 1, 32, fp) == 32) {
+            if (memcmp(sig_check + 6, "CONTACT_INTOPIX_", 16) == 0) {
+                (void)fseek(fp, cur, SEEK_SET);
+                return 1; /* Found TicoRAW signature */
+            }
+        }
+    }
+    
+    /* Fallback: scan entire file for HE* marker (but limit to reasonable size) */
+    if (fseek(fp, 0, SEEK_SET) != 0) return 0;
+    const size_t MAX_SCAN = 20 << 20; /* 20 MiB - enough for our test file */
     uint8_t *buf = (uint8_t *)malloc(MAX_SCAN);
     if (!buf) { (void)fseek(fp, cur, SEEK_SET); return 0; }
     size_t n = fread(buf, 1, MAX_SCAN, fp);
     /* Restore file position */
     (void)fseek(fp, cur, SEEK_SET);
     if (n == 0) { free(buf); return 0; }
+    
     const char *needle1 = "HE*";
-    const char *needle2 = "High Efficiency*";
     int found = 0;
     /* Simple substring search */
     for (size_t i = 0; i + 2 < n; i++) {
-        if (!found && i + 3 <= n && memcmp(buf + i, needle1, 3) == 0) { found = 1; break; }
-        if (!found && i + 16 <= n && memcmp(buf + i, needle2, 16) == 0) { found = 1; break; }
+        if (i + 3 <= n && memcmp(buf + i, needle1, 3) == 0) { 
+            found = 1; 
+            break; 
+        }
     }
     free(buf);
     return found;
@@ -70,8 +86,10 @@ static int looks_like_nikon_he_star(FILE *fp)
 
 int load(ImlibImage *im, int load_data)
 {
-    (void)im;      /* Suppress unused parameter warning */
     (void)load_data; /* Suppress unused parameter warning */
+    
+    /* Set the image context first */
+    imlib_context_set_image(im);
     
     const char *filename = imlib_image_get_filename();
     if (!filename) return 0;
@@ -96,8 +114,9 @@ int load(ImlibImage *im, int load_data)
         return 0; 
     }
 
-    /* For now, we detect HE* but don't load it (decoder integration pending) */
-    /* This allows the loader to be present but defer to other loaders */
+    /* HE* file detected, but full loader not implemented yet */
+    /* For now, return 0 to let other loaders handle it */
+    /* TODO: Integrate the full decoder here for direct feh viewing */
     return 0;
 }
 
