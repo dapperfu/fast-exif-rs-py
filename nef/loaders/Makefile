@@ -6,12 +6,17 @@ DEFAULT_IMLIB2_CFLAGS:=-I/usr/include/Imlib2
 CFLAGS:=-fPIC -O2 -Wall -Wextra $(if $(IMLIB2_CFLAGS),$(IMLIB2_CFLAGS),$(DEFAULT_IMLIB2_CFLAGS)) -I../third_party
 LDFLAGS:=-shared $(IMLIB2_LIBS)
 
+# Optional libhefraw integration
+LIBHEFRAW_PATH?=../decoder/libhefraw.a
+HEFRAW_CFLAGS:=-I../decoder/include
+HEFRAW_LIBS:=-L../decoder -lhefraw
+
 .PHONY: all clean
 
 all: loader_nef.so
 
 loader_nef.so: loader_nef.c
-	${CC} ${CFLAGS} -o $@ $< ${LDFLAGS}
+	${CC} ${CFLAGS} ${HEFRAW_CFLAGS} -o $@ $< ${LDFLAGS} ${HEFRAW_LIBS}
 
 clean:
 	rm -f loader_nef.so
