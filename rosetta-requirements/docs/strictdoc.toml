@@ -1,0 +1,24 @@
+# StrictDoc Configuration File
+# ITAR Aerospace Requirements Management System
+# 
+# This configuration file provides project-wide settings for StrictDoc
+# documentation generation. All custom attributes (ITAR_CLASSIFICATION,
+# EXPORT_CONTROL, etc.) are defined in the GRAMMAR sections of individual
+# .sdoc documents.
+
+[project]
+title = "ITAR Aerospace Requirements Management System"
+
+[strictdoc]
+# Minimum Python version required
+min_python_version = "3.8"
+
+[html]
+# HTML export theme settings
+theme = "StrictDoc"
+theme_color = "Blue"
+
+[export]
+# Default export formats
+formats = ["HTML"]
+
