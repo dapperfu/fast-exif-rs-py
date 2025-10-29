@@ -1,0 +1,11 @@
+# Requirements Tracking Tools Evaluation
+# Python dependencies for evaluation environment
+
+# Doorstop - Requirements management using Markdown/YAML
+# Repository: https://github.com/doorstop-dev/doorstop
+doorstop>=3.0.0
+
+# StrictDoc - Modern requirements management with .sdoc format
+# Repository: https://github.com/strictdoc-project/strictdoc
+strictdoc>=0.0.59
+
