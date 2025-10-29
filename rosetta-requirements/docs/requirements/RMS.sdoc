@@ -1,0 +1,255 @@
+[DOCUMENT]
+TITLE: Requirements Management System Requirements
+UID: RMS-001
+VERSION: 1.0
+DATE: 2025-01-29
+CLASSIFICATION: ITAR CONTROLLED - NO FOREIGN PERSONS
+
+[GRAMMAR]
+ELEMENTS:
+- TAG: REQUIREMENT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: True
+  - TITLE: TITLE
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+  - TITLE: RATIONALE
+    TYPE: String
+    REQUIRED: True
+  - TITLE: VERIFICATION_METHOD
+    TYPE: String
+    REQUIRED: True
+  - TITLE: ITAR_CLASSIFICATION
+    TYPE: String
+    REQUIRED: True
+  - TITLE: EXPORT_CONTROL
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATUS
+    TYPE: SingleChoice(Draft, Active, Deleted)
+    REQUIRED: True
+  RELATIONS:
+  - TYPE: Child
+    ROLE: Refines
+
+[[SECTION]]
+UID: RMS-GEN
+TITLE: General Requirements Management
+
+[REQUIREMENT]
+UID: RMS-001
+TITLE: Requirements Management System Selection
+STATEMENT: >>>
+The project shall utilize a requirements management system capable of maintaining traceability, version control, and export control compliance for ITAR-regulated technical data.
+<<<
+RATIONALE: >>>
+ITAR regulations require strict control and traceability of technical data related to defense articles. A formal requirements management system ensures compliance with export control regulations and provides audit trails for regulatory compliance.
+<<<
+VERIFICATION_METHOD: >>>
+Review of requirements management system selection documentation and compliance verification report.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[REQUIREMENT]
+UID: RMS-002
+TITLE: Requirements Tool Selection - Doorstop
+STATEMENT: >>>
+The project shall utilize Doorstop as the primary requirements management tool for all requirements documentation and traceability management.
+<<<
+RATIONALE: >>>
+Doorstop provides text-based requirements management with Git integration, traceability features, and export capabilities suitable for ITAR-controlled environments. Its lightweight architecture and version control integration support controlled access requirements.
+<<<
+VERIFICATION_METHOD: >>>
+Review of tool selection documentation and implementation verification through requirements database review.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[REQUIREMENT]
+UID: RMS-003
+TITLE: ITAR Compliance Framework
+STATEMENT: >>>
+All requirements documentation shall comply with International Traffic in Arms Regulations (ITAR) export control requirements, including proper classification marking, access control, and audit trail maintenance.
+<<<
+RATIONALE: >>>
+ITAR regulations mandate that technical data related to defense articles be properly controlled and marked. Failure to comply may result in severe penalties including fines and criminal prosecution.
+<<<
+VERIFICATION_METHOD: >>>
+Audit of all requirements documents for proper ITAR classification markings and compliance with export control procedures.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[REQUIREMENT]
+UID: RMS-004
+TITLE: Requirements Document Hierarchy
+STATEMENT: >>>
+The project shall maintain a hierarchical requirements structure consisting of System Requirements (SYS), Software Requirements (SRD), and Software Design Documents (SDD) with complete traceability between levels.
+<<<
+RATIONALE: >>>
+Hierarchical requirements structure enables proper decomposition of high-level system requirements into implementable design requirements, ensuring complete coverage and traceability throughout the development lifecycle.
+<<<
+VERIFICATION_METHOD: >>>
+Review of requirements hierarchy documentation and traceability matrix showing complete coverage from system to design level requirements.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[[/SECTION]]
+
+[[SECTION]]
+UID: RMS-ACC
+TITLE: Access Control and Security
+
+[REQUIREMENT]
+UID: RMS-005
+TITLE: Authorized Personnel Access Control
+STATEMENT: >>>
+Access to requirements documentation shall be restricted to authorized personnel who have completed ITAR training and have a valid need-to-know for the specific technical data.
+<<<
+RATIONALE: >>>
+ITAR regulations require strict access control to prevent unauthorized disclosure of controlled technical data. Only personnel with proper authorization and training may access ITAR-controlled information.
+<<<
+VERIFICATION_METHOD: >>>
+Review of access control logs, personnel training records, and authorization documentation for all individuals with access to requirements documentation.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[REQUIREMENT]
+UID: RMS-006
+TITLE: Audit Trail Maintenance
+STATEMENT: >>>
+All changes to requirements documentation shall be logged with timestamp, user identification, and change description to maintain a complete audit trail for ITAR compliance.
+<<<
+RATIONALE: >>>
+ITAR regulations require maintenance of audit trails to demonstrate compliance with export control requirements and to track all access and modifications to controlled technical data.
+<<<
+VERIFICATION_METHOD: >>>
+Review of version control system logs and audit trail reports demonstrating complete change tracking for all requirements modifications.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[REQUIREMENT]
+UID: RMS-007
+TITLE: Export Control Markings
+STATEMENT: >>>
+All requirements documents shall be marked with appropriate ITAR classification, export control markings, and handling instructions in accordance with Department of State regulations.
+<<<
+RATIONALE: >>>
+Proper marking of controlled technical data is required by ITAR to ensure personnel understand the sensitivity and handling requirements of the information.
+<<<
+VERIFICATION_METHOD: >>>
+Review of all requirements documents for presence of required ITAR classification markings and export control notices.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[[/SECTION]]
+
+[[SECTION]]
+UID: RMS-LIF
+TITLE: Requirements Lifecycle Management
+
+[REQUIREMENT]
+UID: RMS-008
+TITLE: Requirements Review Process
+STATEMENT: >>>
+All requirements shall undergo formal review and approval processes before being baselined, including technical review, security review, and program management approval.
+<<<
+RATIONALE: >>>
+Formal review processes ensure requirements are technically sound, properly classified, and aligned with program objectives before committing resources to implementation.
+<<<
+VERIFICATION_METHOD: >>>
+Review of requirements review records and approval documentation for all baselined requirements.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[REQUIREMENT]
+UID: RMS-009
+TITLE: Requirements Change Management
+STATEMENT: >>>
+All changes to baselined requirements shall be processed through a formal change control process including impact analysis, approval, and traceability updates.
+<<<
+RATIONALE: >>>
+Change control processes ensure that modifications to baselined requirements are properly evaluated for technical impact, security implications, and programmatic consequences before implementation.
+<<<
+VERIFICATION_METHOD: >>>
+Review of change control records and impact analysis documentation for all requirements modifications.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[REQUIREMENT]
+UID: RMS-010
+TITLE: Requirements Traceability
+STATEMENT: >>>
+The requirements management system shall maintain complete bidirectional traceability between system requirements, software requirements, design requirements, implementation, and verification artifacts.
+<<<
+RATIONALE: >>>
+Complete traceability enables impact analysis, verification coverage assessment, and compliance demonstration required for aerospace and military systems development.
+<<<
+VERIFICATION_METHOD: >>>
+Review of traceability matrices and automated traceability reports demonstrating complete coverage from system requirements through verification artifacts.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[[/SECTION]]
+
+[[SECTION]]
+UID: RMS-ROL
+TITLE: Roles and Responsibilities
+
+[REQUIREMENT]
+UID: RMS-011
+TITLE: Requirements Management Authority
+STATEMENT: >>>
+The project shall designate a Requirements Management Authority responsible for overseeing requirements management processes, tool configuration, and compliance with ITAR regulations.
+<<<
+RATIONALE: >>>
+Designated authority ensures consistent application of requirements management processes and provides expert oversight for tool usage and compliance.
+<<<
+VERIFICATION_METHOD: >>>
+Review of organizational chart and job descriptions identifying the Requirements Management Authority role and responsibilities.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[REQUIREMENT]
+UID: RMS-012
+TITLE: Requirements Author Responsibilities
+STATEMENT: >>>
+Requirements authors shall be responsible for creating properly formatted requirements with complete attributes, maintaining traceability links, and ensuring requirements comply with ITAR classification requirements.
+<<<
+RATIONALE: >>>
+Clear assignment of responsibilities ensures requirements are created with necessary detail and compliance attributes from initial creation.
+<<<
+VERIFICATION_METHOD: >>>
+Review of requirements documentation demonstrating proper formatting and completeness of requirements authored by assigned personnel.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+
+[[/SECTION]]
+

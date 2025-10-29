@@ -1,0 +1,653 @@
+[DOCUMENT]
+TITLE: Doorstop Implementation Requirements
+UID: DIR-001
+VERSION: 1.0
+DATE: 2025-01-29
+CLASSIFICATION: ITAR CONTROLLED - NO FOREIGN PERSONS
+
+[GRAMMAR]
+ELEMENTS:
+- TAG: REQUIREMENT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: True
+  - TITLE: TITLE
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+  - TITLE: RATIONALE
+    TYPE: String
+    REQUIRED: True
+  - TITLE: VERIFICATION_METHOD
+    TYPE: String
+    REQUIRED: True
+  - TITLE: ITAR_CLASSIFICATION
+    TYPE: String
+    REQUIRED: True
+  - TITLE: EXPORT_CONTROL
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATUS
+    TYPE: SingleChoice(Draft, Active, Deleted)
+    REQUIRED: True
+  RELATIONS:
+  - TYPE: Parent
+    ROLE: Refines
+
+[[SECTION]]
+UID: DIR-DOC
+TITLE: Document Management
+
+[REQUIREMENT]
+UID: DIR-001
+TITLE: Doorstop Document Structure
+STATEMENT: >>>
+Doorstop shall be configured with a hierarchical document structure consisting of System Requirements (SYS), Software Requirements (SRD), and Software Design Documents (SDD) documents, each maintained as separate Doorstop documents.
+<<<
+RATIONALE: >>>
+Hierarchical document structure enables proper requirements decomposition and traceability management. Separate documents for each level facilitate access control and document management.
+<<<
+VERIFICATION_METHOD: >>>
+Review of Doorstop document configuration and directory structure verifying three-level hierarchy implementation.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-004
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-002
+TITLE: Document Naming Conventions
+STATEMENT: >>>
+All Doorstop documents shall follow the naming convention: PREFIX-XXX where PREFIX is the document type (SYS, SRD, SDD) and XXX is a three-digit sequential number. Document directories shall be named using lowercase with underscores (e.g., sys_requirements, srd_requirements, sdd_requirements).
+<<<
+RATIONALE: >>>
+Consistent naming conventions enable automated processing, improve organization, and support traceability link validation across documents.
+<<<
+VERIFICATION_METHOD: >>>
+Review of Doorstop document structure and naming verification through automated naming convention validation script.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-004
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-003
+TITLE: Document Configuration File
+STATEMENT: >>>
+Each Doorstop document shall include a properly configured .doorstop.yml file specifying document prefix, level, parent document relationships, and custom attributes required for ITAR compliance.
+<<<
+RATIONALE: >>>
+Configuration files ensure consistent document structure, enable automated validation, and support traceability link management between parent and child documents.
+<<<
+VERIFICATION_METHOD: >>>
+Review of all .doorstop.yml files for completeness and compliance with configuration standards.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-004
+  ROLE: Refines
+
+[[/SECTION]]
+
+[[SECTION]]
+UID: DIR-FMT
+TITLE: Requirement Format
+
+[REQUIREMENT]
+UID: DIR-004
+TITLE: Requirement ID Format
+STATEMENT: >>>
+All requirements shall use the format PREFIX-#### where PREFIX is the document prefix (SYS, SRD, SDD) and #### is a four-digit sequential number starting from 0001. Requirement IDs shall be unique within each document and shall not be reused after deletion.
+<<<
+RATIONALE: >>>
+Consistent requirement ID format enables automated processing, traceability link validation, and prevents ID conflicts. Sequential numbering supports easy identification of requirement sequence and gaps.
+<<<
+VERIFICATION_METHOD: >>>
+Automated validation script checking all requirement IDs for format compliance and uniqueness within documents.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-012
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-005
+TITLE: Requirement Text Format
+STATEMENT: >>>
+All requirement statements shall be written in third person imperative mood using "shall" for mandatory requirements. Requirement text shall be clear, unambiguous, verifiable, and shall not contain multiple requirements in a single statement.
+<<<
+RATIONALE: >>>
+Standard requirement writing format ensures clarity, prevents ambiguity, and supports automated parsing and verification. Single-requirement-per-statement rule enables proper traceability and verification coverage.
+<<<
+VERIFICATION_METHOD: >>>
+Review of requirement statements for compliance with writing standards and automated grammar checking for requirement text structure.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-012
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-006
+TITLE: Mandatory Requirement Attributes
+STATEMENT: >>>
+All requirements shall include the following mandatory attributes: UID, text, rationale, verification method, ITAR classification, export control marking, status, and parent links (for derived requirements). Optional attributes may include priority, risk level, and verification coverage.
+<<<
+RATIONALE: >>>
+Mandatory attributes ensure completeness of requirements documentation, support traceability, and enable ITAR compliance verification. Rationale and verification method support requirement validation and testing.
+<<<
+VERIFICATION_METHOD: >>>
+Automated validation script checking all requirements for presence of mandatory attributes.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-012
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-007
+TITLE: Requirement Metadata Fields
+STATEMENT: >>>
+Doorstop frontmatter shall include ITAR-specific metadata fields: itar_classification (ITAR CONTROLLED, ITAR RESTRICTED, or NONE), export_control (e.g., EAR99, USML Category), access_level (PUBLIC, INTERNAL, RESTRICTED, SECRET), and approver (name of approving authority).
+<<<
+RATIONALE: >>>
+ITAR-specific metadata enables automated compliance checking, access control enforcement, and export control classification tracking required for regulatory compliance.
+<<<
+VERIFICATION_METHOD: >>>
+Review of requirement frontmatter metadata and automated validation of ITAR classification fields.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-003
+  ROLE: Refines
+
+[[/SECTION]]
+
+[[SECTION]]
+UID: DIR-TRC
+TITLE: Traceability Management
+
+[REQUIREMENT]
+UID: DIR-008
+TITLE: Parent-Child Link Requirements
+STATEMENT: >>>
+All derived requirements (SRD and SDD level) shall maintain explicit parent links to source requirements using Doorstop's built-in parent link syntax. Parent links shall be validated automatically during document validation to ensure traceability integrity.
+<<<
+RATIONALE: >>>
+Explicit parent-child links enable impact analysis, requirements coverage verification, and support change propagation analysis when parent requirements are modified.
+<<<
+VERIFICATION_METHOD: >>>
+Automated validation script checking all derived requirements for valid parent links and Doorstop traceability validation execution.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-010
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-009
+TITLE: Traceability Link Validation
+STATEMENT: >>>
+Doorstop link validation shall be executed before every document commit and publication. All broken or invalid links shall be resolved before requirements approval. Link validation results shall be logged and reviewed as part of quality assurance processes.
+<<<
+RATIONALE: >>>
+Broken traceability links undermine requirements coverage verification and impact analysis capabilities. Automated validation prevents introduction of invalid links and maintains traceability integrity.
+<<<
+VERIFICATION_METHOD: >>>
+Review of link validation logs and integration of Doorstop link validation into pre-commit hooks.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-010
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-010
+TITLE: Traceability Matrix Generation
+STATEMENT: >>>
+Doorstop shall be used to generate traceability matrices showing coverage from system requirements through software requirements to design requirements. Traceability matrices shall be generated as part of all requirements documentation exports and reviewed during formal reviews.
+<<<
+RATIONALE: >>>
+Traceability matrices provide visual representation of requirements coverage and enable identification of gaps or missing derived requirements. Matrix review supports verification planning and compliance demonstration.
+<<<
+VERIFICATION_METHOD: >>>
+Review of generated traceability matrices and verification of automated generation as part of documentation export process.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-010
+  ROLE: Refines
+
+[[/SECTION]]
+
+[[SECTION]]
+UID: DIR-VCS
+TITLE: Version Control Integration
+
+[REQUIREMENT]
+UID: DIR-011
+TITLE: Git Repository Structure
+STATEMENT: >>>
+Doorstop requirements documents shall be maintained in a Git repository with separate directories for each document type (SYS, SRD, SDD). Repository shall include .gitignore configuration to exclude generated HTML and intermediate files while preserving source Markdown files.
+<<<
+RATIONALE: >>>
+Git version control provides audit trail, change tracking, and branch management capabilities required for ITAR compliance. Separate directories enable access control configuration and document organization.
+<<<
+VERIFICATION_METHOD: >>>
+Review of Git repository structure and .gitignore configuration verification.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-006
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-012
+TITLE: Git Commit Message Standards
+STATEMENT: >>>
+All Git commits modifying requirements shall include requirement UIDs in commit messages using format: "REQ-UID: Description of change". Commit messages shall clearly describe the nature of the change and rationale for modification.
+<<<
+RATIONALE: >>>
+Standardized commit messages enable traceability of requirements changes through version control history and support change impact analysis and audit trail review.
+<<<
+VERIFICATION_METHOD: >>>
+Review of Git commit history and automated validation of commit message format compliance.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-006
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-013
+TITLE: Git Branch Strategy
+STATEMENT: >>>
+Requirements changes shall be developed in feature branches named req-REQ-UID-description. Feature branches shall be merged to main branch only after review and approval. Main branch shall always contain approved, baselined requirements only.
+<<<
+RATIONALE: >>>
+Branch-based workflow enables parallel development of requirements changes while maintaining stable baseline. Branch naming convention supports traceability between branches and requirements.
+<<<
+VERIFICATION_METHOD: >>>
+Review of Git branch structure and merge policies verification.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-009
+  ROLE: Refines
+
+[[/SECTION]]
+
+[[SECTION]]
+UID: DIR-ITAR
+TITLE: Access Control and ITAR Compliance
+
+[REQUIREMENT]
+UID: DIR-014
+TITLE: Repository Access Control
+STATEMENT: >>>
+Git repository access shall be restricted to authorized personnel only. Access shall be granted by Requirements Management Authority based on need-to-know and ITAR training completion. Access logs shall be maintained and reviewed quarterly.
+<<<
+RATIONALE: >>>
+ITAR regulations require strict access control to prevent unauthorized disclosure of controlled technical data. Access logs provide audit trail for compliance verification.
+<<<
+VERIFICATION_METHOD: >>>
+Review of repository access control configuration and access logs demonstrating restricted access to authorized personnel only.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-005
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-015
+TITLE: Export Control Markings in Documents
+STATEMENT: >>>
+All Doorstop-generated documentation shall include ITAR export control markings in document headers and footers. Markings shall include classification level, export control designation, and handling instructions. Markings shall be automatically included in all HTML and PDF exports.
+<<<
+RATIONALE: >>>
+ITAR regulations require visible export control markings on all controlled technical data. Automated inclusion ensures consistent application and prevents accidental omission.
+<<<
+VERIFICATION_METHOD: >>>
+Review of generated documentation for presence of required ITAR markings and verification of automated marking inclusion in export templates.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-007
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-016
+TITLE: Controlled Unclassified Information Handling
+STATEMENT: >>>
+Requirements containing Controlled Unclassified Information (CUI) shall be marked appropriately and access shall be logged. CUI markings shall be included in requirement metadata and displayed in all documentation exports.
+<<<
+RATIONALE: >>>
+CUI handling requirements ensure proper protection of sensitive but unclassified information related to defense articles. Marking and access logging support compliance with federal regulations.
+<<<
+VERIFICATION_METHOD: >>>
+Review of CUI marking implementation and access logging verification for CUI-marked requirements.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-003
+  ROLE: Refines
+
+[[/SECTION]]
+
+[[SECTION]]
+UID: DIR-REV
+TITLE: Review and Approval Processes
+
+[REQUIREMENT]
+UID: DIR-017
+TITLE: Requirements Review Workflow
+STATEMENT: >>>
+All new and modified requirements shall follow a formal review workflow: Draft -> Technical Review -> Security Review -> Program Management Approval -> Active. Review status shall be tracked in requirement metadata and visible in documentation exports.
+<<<
+RATIONALE: >>>
+Formal review workflow ensures requirements receive appropriate technical and security scrutiny before approval. Status tracking enables review progress monitoring and prevents premature approval.
+<<<
+VERIFICATION_METHOD: >>>
+Review of requirements review records and status tracking verification in requirement metadata.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-008
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-018
+TITLE: Review Approval Records
+STATEMENT: >>>
+All requirement approvals shall be recorded in requirement metadata including approver name, approval date, and review comments. Approval records shall be maintained in version control and included in documentation exports.
+<<<
+RATIONALE: >>>
+Approval records provide audit trail for requirements decisions and demonstrate compliance with review processes. Version control preservation ensures historical record availability.
+<<<
+VERIFICATION_METHOD: >>>
+Review of requirement metadata for completion of approval records and verification of approval record preservation in version control.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-008
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-019
+TITLE: Quarterly Audit Requirements
+STATEMENT: >>>
+Requirements Management Authority shall conduct quarterly audits of requirements documentation including review of access logs, change history, classification accuracy, and traceability completeness. Audit results shall be documented and maintained for compliance purposes.
+<<<
+RATIONALE: >>>
+Regular audits ensure continued compliance with ITAR regulations and identify process improvements. Audit documentation supports regulatory compliance verification.
+<<<
+VERIFICATION_METHOD: >>>
+Review of quarterly audit reports and verification of audit schedule adherence.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-011
+  ROLE: Refines
+
+[[/SECTION]]
+
+[[SECTION]]
+UID: DIR-EXP
+TITLE: Export and Reporting
+
+[REQUIREMENT]
+UID: DIR-020
+TITLE: HTML Documentation Export
+STATEMENT: >>>
+Doorstop shall be configured to generate HTML documentation exports with proper ITAR markings, navigation structure, and traceability link visualization. HTML exports shall be generated for all document reviews and formal deliverables.
+<<<
+RATIONALE: >>>
+HTML documentation provides readable format for review and delivers requirements information in accessible format while maintaining ITAR compliance markings.
+<<<
+VERIFICATION_METHOD: >>>
+Review of generated HTML documentation for proper formatting, ITAR markings, and traceability link functionality.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-008
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-021
+TITLE: Requirements Traceability Reports
+STATEMENT: >>>
+Doorstop shall be used to generate traceability reports showing complete coverage from system requirements through verification artifacts. Reports shall be generated in both HTML and tabular formats for review and analysis.
+<<<
+RATIONALE: >>>
+Traceability reports enable verification coverage assessment and support impact analysis. Multiple formats support different review and analysis needs.
+<<<
+VERIFICATION_METHOD: >>>
+Review of generated traceability reports and verification of automated report generation process.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-010
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-022
+TITLE: Requirements Coverage Reports
+STATEMENT: >>>
+Doorstop shall be configured to generate requirements coverage reports showing verification status for each requirement. Coverage reports shall identify requirements without verification coverage and support test planning activities.
+<<<
+RATIONALE: >>>
+Coverage reports enable identification of verification gaps and support test planning to ensure all requirements have appropriate verification methods implemented.
+<<<
+VERIFICATION_METHOD: >>>
+Review of requirements coverage reports and verification of coverage tracking implementation.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-010
+  ROLE: Refines
+
+[[/SECTION]]
+
+[[SECTION]]
+UID: DIR-QA
+TITLE: Quality Assurance
+
+[REQUIREMENT]
+UID: DIR-023
+TITLE: Automated Requirements Validation
+STATEMENT: >>>
+Pre-commit hooks shall be configured to execute Doorstop validation checks including link validation, attribute completeness checking, and format compliance verification. Validation failures shall prevent commit until resolved.
+<<<
+RATIONALE: >>>
+Automated validation prevents introduction of invalid requirements and ensures consistency. Pre-commit validation catches errors before they enter the repository, reducing review effort.
+<<<
+VERIFICATION_METHOD: >>>
+Review of pre-commit hook configuration and testing of validation failure scenarios.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-012
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-024
+TITLE: Requirements Attribute Completeness
+STATEMENT: >>>
+All requirements shall have complete attribute sets including mandatory fields. Automated validation shall check for missing mandatory attributes and incomplete metadata before requirements approval.
+<<<
+RATIONALE: >>>
+Complete requirement attributes support traceability, verification planning, and compliance tracking. Automated checking ensures consistent application of attribute requirements.
+<<<
+VERIFICATION_METHOD: >>>
+Review of requirements documentation and automated validation script execution results.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-012
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-025
+TITLE: Requirements Writing Quality Standards
+STATEMENT: >>>
+Requirements Management Authority shall maintain and enforce requirements writing standards including clarity, verifiability, and grammar requirements. Requirements failing writing standards shall be rejected during review until corrected.
+<<<
+RATIONALE: >>>
+Quality writing standards ensure requirements are clear, unambiguous, and verifiable. Consistent quality supports implementation and verification activities.
+<<<
+VERIFICATION_METHOD: >>>
+Review of requirements writing standards documentation and verification of standards enforcement during review processes.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-011
+  ROLE: Refines
+
+[[/SECTION]]
+
+[[SECTION]]
+UID: DIR-CHG
+TITLE: Change Management
+
+[REQUIREMENT]
+UID: DIR-026
+TITLE: Requirements Change Request Process
+STATEMENT: >>>
+All requirements changes shall be initiated through formal change requests documented in requirement metadata or separate change tracking system. Change requests shall include rationale, impact analysis, and approval status.
+<<<
+RATIONALE: >>>
+Formal change request process ensures changes are properly evaluated before implementation. Documented rationale and impact analysis support informed decision-making.
+<<<
+VERIFICATION_METHOD: >>>
+Review of change request records and verification of change request process adherence.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-009
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-027
+TITLE: Change Impact Analysis
+STATEMENT: >>>
+All requirements change requests shall include impact analysis identifying affected requirements, verification artifacts, and implementation components. Impact analysis shall be reviewed and approved before change implementation.
+<<<
+RATIONALE: >>>
+Impact analysis identifies downstream effects of requirements changes and enables proper planning for verification and implementation updates. Review ensures comprehensive impact assessment.
+<<<
+VERIFICATION_METHOD: >>>
+Review of change request impact analysis documentation and verification of impact analysis completeness.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-009
+  ROLE: Refines
+
+[REQUIREMENT]
+UID: DIR-028
+TITLE: Change Approval Workflow
+STATEMENT: >>>
+Requirements changes shall follow approval workflow: Change Request -> Impact Analysis Review -> Technical Review -> Security Review -> Program Management Approval -> Implementation. Workflow status shall be tracked in change request metadata.
+<<<
+RATIONALE: >>>
+Structured approval workflow ensures appropriate review and approval for all changes. Status tracking enables workflow progress monitoring and prevents unauthorized changes.
+<<<
+VERIFICATION_METHOD: >>>
+Review of change approval records and workflow status tracking verification.
+<<<
+ITAR_CLASSIFICATION: ITAR CONTROLLED
+EXPORT_CONTROL: EAR99
+STATUS: Active
+RELATIONS:
+- TYPE: Parent
+  VALUE: RMS-009
+  ROLE: Refines
+
+[[/SECTION]]
+
