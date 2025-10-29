@@ -1,0 +1,19 @@
+active: true
+derived: true
+export_control: EAR99
+header: |
+  ITAR Classification Marking
+itar_classification: ITAR CONTROLLED
+level: 3.0
+links:
+- SYS-0002: ghLGsgF3DhXL3CnoZ-Z3AxGTvreo-EFKR6KoCGIyZdc=
+normative: true
+rationale: |
+  ITAR classification marking implements SYS-0002 export control compliance requirement.
+ref: SRD-0003
+reviewed: QIBKcVFenWUBsM6sU9ht7hHXXZ-x40xh2qtHW7qc6Ag=
+status: Active
+text: |
+  All software modules shall include ITAR classification metadata in source code headers and documentation.
+verification_method: |
+  Code review and automated scanning for classification markings.

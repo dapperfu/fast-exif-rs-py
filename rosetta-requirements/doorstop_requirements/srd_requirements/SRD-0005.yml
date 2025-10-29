@@ -1,0 +1,18 @@
+active: true
+derived: true
+export_control: EAR99
+header: |
+  Encryption Library
+itar_classification: ITAR CONTROLLED
+level: 5.0
+links:
+- SYS-0004: x1Qq0IrjbdAlBxGZGZmMOvMeB9WB9tMnbmE5AHJC_9w=
+normative: true
+rationale: |
+  Encryption library implements SYS-0004 secure communications requirement.
+ref: SRD-0005
+reviewed: uBOxpJACetwXgm1ksBMThibnmTbXSJDJeM4Nb9qo92A=
+status: Active
+text: |
+  The software shall provide encryption library functions for secure communications using approved cryptographic algorithms.
+verification_method: Cryptographic algorithm validation and security testing.

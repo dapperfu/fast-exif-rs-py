@@ -1,0 +1,18 @@
+active: true
+derived: false
+export_control: EAR99
+header: |
+  Export Control Compliance
+itar_classification: ITAR CONTROLLED
+level: 2.0
+links: []
+normative: true
+rationale: |
+  ITAR compliance is mandatory for defense articles and prevents unauthorized export of controlled technical data.
+ref: SYS-0002
+reviewed: ghLGsgF3DhXL3CnoZ-Z3AxGTvreo-EFKR6KoCGIyZdc=
+status: Active
+text: |
+  The system shall comply with all ITAR export control regulations and maintain proper classification markings on all technical data.
+verification_method: |
+  Compliance audit review and export control marking verification.

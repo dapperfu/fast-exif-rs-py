@@ -1,0 +1,17 @@
+active: true
+derived: true
+export_control: EAR99
+header: |
+  Data Logging Service
+itar_classification: ITAR CONTROLLED
+level: 6.0
+links:
+- SYS-0005: 8q9FnUxp0b8d8oW1Z5X_LBMd4dSMBqiXfeceS29GFCo=
+normative: true
+rationale: Data logging service implements SYS-0005 data recording requirement.
+ref: SRD-0006
+reviewed: ggGUdMzk0_giW_DUh9cEAC4rD_gXWX6V8uQLQaqnK2w=
+status: Active
+text: |
+  The software shall provide data logging service that records all system events with timestamps and maintains audit trail.
+verification_method: Data logging testing and audit trail verification.

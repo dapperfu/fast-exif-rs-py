@@ -1,0 +1,18 @@
+active: true
+derived: true
+export_control: EAR99
+header: |
+  Navigation Software Module
+itar_classification: ITAR CONTROLLED
+level: 2.0
+links:
+- SYS-0001: V1UWi6nU31pakf2joA5njnJrD8YNOZktpeCBTP3Abcw=
+normative: true
+rationale: |
+  Navigation software decomposes SYS-0001 mission computing requirement.
+ref: SRD-0002
+reviewed: v7k3LY4UoYBdQ2dHpv436r2Da8z2qChucnpn2dQxU9c=
+status: Active
+text: |
+  The software shall provide navigation algorithms for position determination and route planning.
+verification_method: Navigation algorithm testing and accuracy validation.

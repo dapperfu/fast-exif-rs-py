@@ -1,0 +1,21 @@
+# Git ignore file for Doorstop requirements
+# Per DIR-011: Git Repository Structure
+
+# Generated HTML and documentation
+html_output/
+*.html
+
+# Doorstop cache and temporary files
+.doorstop_cache/
+*.pyc
+__pycache__/
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+

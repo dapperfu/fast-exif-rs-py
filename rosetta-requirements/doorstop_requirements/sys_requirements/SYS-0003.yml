@@ -1,0 +1,18 @@
+active: true
+derived: false
+export_control: EAR99
+header: |
+  Real-Time Performance
+itar_classification: ITAR CONTROLLED
+level: 3.0
+links: []
+normative: true
+rationale: |
+  Real-time performance is critical for flight safety and mission effectiveness.
+ref: SYS-0003
+reviewed: 3af8mSL_LpzsQKGNlEWVZYozV6nnPDlaXEOICadDEFk=
+status: Active
+text: |
+  The system shall process flight control commands within 10 milliseconds to ensure safe aircraft operation.
+verification_method: |
+  Timing analysis and performance testing under worst-case conditions.

@@ -1,0 +1,17 @@
+active: true
+derived: false
+export_control: EAR99
+header: |
+  Secure Communications
+itar_classification: ITAR CONTROLLED
+level: 4.0
+links: []
+normative: true
+rationale: |
+  Secure communications prevent interception and ensure mission security.
+ref: SYS-0004
+reviewed: x1Qq0IrjbdAlBxGZGZmMOvMeB9WB9tMnbmE5AHJC_9w=
+status: Active
+text: |
+  The system shall provide secure encrypted communications for command and control data transmission.
+verification_method: Security testing and cryptographic validation.

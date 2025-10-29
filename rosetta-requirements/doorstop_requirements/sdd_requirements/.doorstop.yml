@@ -1,0 +1,18 @@
+settings:
+  digits: '4'
+  itemformat: yaml
+  parent: SRD
+  prefix: SDD
+  sep: '-'
+
+# ITAR Compliance Metadata
+# Per DIR-003: Document Configuration File
+# Per DIR-007: Requirement Metadata Fields
+metadata:
+  itar_classification: ITAR CONTROLLED
+  export_control: EAR99
+  classification: ITAR CONTROLLED - NO FOREIGN PERSONS
+  access_level: RESTRICTED
+  document_type: Software Design Document
+  title: Software Design Document
+  version: 1.0

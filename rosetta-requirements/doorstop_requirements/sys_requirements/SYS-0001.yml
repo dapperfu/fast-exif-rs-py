@@ -1,0 +1,17 @@
+active: true
+derived: false
+export_control: EAR99
+header: |
+  Mission Computing System
+itar_classification: ITAR CONTROLLED
+level: 1.0
+links: []
+normative: true
+rationale: |
+  Mission computing is core to aerospace defense systems and requires integration of multiple subsystems.
+ref: SYS-0001
+reviewed: V1UWi6nU31pakf2joA5njnJrD8YNOZktpeCBTP3Abcw=
+status: Active
+text: |
+  The system shall provide mission computing capabilities for flight control, navigation, and weapons management.
+verification_method: System integration testing and flight test demonstrations.

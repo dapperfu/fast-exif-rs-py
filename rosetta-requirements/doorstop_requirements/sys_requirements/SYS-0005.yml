@@ -1,0 +1,17 @@
+active: true
+derived: false
+export_control: EAR99
+header: |
+  Data Recording and Audit Trail
+itar_classification: ITAR CONTROLLED
+level: 5.0
+links: []
+normative: true
+rationale: |
+  Data recording supports mission analysis and provides audit trail for ITAR compliance verification.
+ref: SYS-0005
+reviewed: 8q9FnUxp0b8d8oW1Z5X_LBMd4dSMBqiXfeceS29GFCo=
+status: Active
+text: |
+  The system shall record all mission data and maintain a complete audit trail of system operations for post-mission analysis and compliance.
+verification_method: Data recording testing and audit trail validation.

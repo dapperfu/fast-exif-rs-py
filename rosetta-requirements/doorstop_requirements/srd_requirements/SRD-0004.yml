@@ -1,0 +1,19 @@
+active: true
+derived: true
+export_control: EAR99
+header: |
+  Real-Time Task Scheduling
+itar_classification: ITAR CONTROLLED
+level: 4.0
+links:
+- SYS-0003: 3af8mSL_LpzsQKGNlEWVZYozV6nnPDlaXEOICadDEFk=
+normative: true
+rationale: |
+  Real-time scheduling implements SYS-0003 real-time performance requirement.
+ref: SRD-0004
+reviewed: S80YN5Q9O9a68us7TfmHmz2wK8YFamZEPLIlXqyX6hs=
+status: Active
+text: |
+  The software shall implement a real-time task scheduler that ensures flight control tasks execute within 10 millisecond deadline.
+verification_method: |
+  Scheduler timing analysis and worst-case execution time testing.

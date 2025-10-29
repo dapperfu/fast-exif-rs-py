@@ -1,0 +1,19 @@
+active: true
+derived: true
+export_control: EAR99
+header: |
+  Flight Control Software Module
+itar_classification: ITAR CONTROLLED
+level: 1.0
+links:
+- SYS-0001: V1UWi6nU31pakf2joA5njnJrD8YNOZktpeCBTP3Abcw=
+normative: true
+rationale: |
+  Flight control software decomposes SYS-0001 mission computing requirement into implementable software components.
+ref: SRD-0001
+reviewed: Iq3YIEV8iJyBXI04dPVkIzUYvMwpJE4Fsog9FImRHRs=
+status: Active
+text: |
+  The software shall implement flight control algorithms for aircraft stabilization and maneuver control.
+verification_method: |
+  Software unit testing and integration testing with flight control hardware.
