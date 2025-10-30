@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StrictDoc Requirements - ITAR Aerospace</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; margin-top: 30px; }
+        .warning { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 20px 0; }
+        .info { background: #d1ecf1; padding: 15px; border-left: 4px solid #0c5460; margin: 20px 0; }
+        ul { line-height: 1.8; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>StrictDoc Requirements Documentation</h1>
+    <h2>ITAR Aerospace Requirements Management System</h2>
+    
+    <div class="info">
+        <strong>Status:</strong> Documents parse successfully but export has known limitation in StrictDoc 0.14.0
+    </div>
+    
+    <h2>Documents</h2>
+    <ul>
+        <li><strong>RMS.sdoc</strong> - Requirements Management System Requirements (Parent Document)
+            <ul>
+                <li>12 high-level requirements</li>
+                <li>Covers: System selection, ITAR compliance, access control, lifecycle management, roles</li>
+            </ul>
+        </li>
+        <li><strong>DIR.sdoc</strong> - Doorstop Implementation Requirements (Child Document)
+            <ul>
+                <li>28 detailed requirements</li>
+                <li>Organized into 9 functional areas</li>
+                <li>All requirements trace to RMS parent requirements</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h2>Document Structure</h2>
+    <p>All requirements include:</p>
+    <ul>
+        <li>UID, TITLE, STATEMENT</li>
+        <li>RATIONALE, VERIFICATION_METHOD</li>
+        <li>ITAR_CLASSIFICATION, EXPORT_CONTROL</li>
+        <li>STATUS (Draft, Active, Deleted)</li>
+    </ul>
+    
+    <h2>Traceability</h2>
+    <p>All 28 DIR requirements properly trace to parent RMS requirements:</p>
+    <ul>
+        <li>DIR requirements trace to 10 unique RMS requirement targets</li>
+        <li>Complete bidirectional traceability maintained</li>
+    </ul>
+    
+    <h2>Viewing Documents</h2>
+    <p>View source documents:</p>
+    <ul>
+        <li><code>docs/requirements/RMS.sdoc</code></li>
+        <li><code>docs/requirements/DIR.sdoc</code></li>
+    </ul>
+    
+    <div class="warning">
+        <strong>Note:</strong> HTML export has a known issue in StrictDoc 0.14.0 related to traceability graph building.
+        The documents themselves parse correctly and are valid StrictDoc format.
+    </div>
+</body>
+</html>

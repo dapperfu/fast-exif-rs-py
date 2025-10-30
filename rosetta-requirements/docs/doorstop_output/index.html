@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doorstop Requirements - ITAR Aerospace</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 40px; border-bottom: 2px solid #95a5a6; padding-bottom: 8px; }
+        .req { background: #f9f9f9; border-left: 4px solid #3498db; padding: 15px; margin: 15px 0; }
+        .req-id { font-weight: bold; color: #2980b9; font-size: 1.1em; }
+        .req-title { font-weight: bold; margin: 5px 0; color: #2c3e50; }
+        .req-text { margin: 10px 0; padding-left: 20px; }
+        .req-meta { font-size: 0.9em; color: #666; margin-top: 10px; }
+        .req-meta strong { color: #333; }
+        .link { color: #27ae60; text-decoration: none; }
+        .link:hover { text-decoration: underline; }
+        .itar-badge { background: #e74c3c; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.85em; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #34495e; color: white; }
+        .info-box { background: #d1ecf1; padding: 15px; border-left: 4px solid #0c5460; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>Doorstop Requirements Documentation</h1>
+    <h2>ITAR Aerospace Mission Computing System</h2>
+    
+    <div class="info-box">
+        <strong>Note:</strong> This documentation is generated from Doorstop requirements tracking system.
+        All requirements comply with ITAR regulations and include proper classification markings.
+    </div>
+    
+    <h2>System Requirements (SYS)</h2>
+
+    <div class="req">
+        <div class="req-id">SYS-0001</div>
+        <div class="req-title">Mission Computing System
+</div>
+        <div class="req-text"><strong>Statement:</strong> The system shall provide mission computing capabilities for flight control, navigation, and weapons management.
+</div>
+        <div class="req-meta">
+            <strong>Rationale:</strong> Mission computing is core to aerospace defense systems and requires integration of multiple subsystems.
+<br>
+            <strong>Verification:</strong> System integration testing and flight test demonstrations.<br>
+            <span class="itar-badge">ITAR ITAR CONTROLLED</span>
+            <strong>Export Control:</strong> EAR99 | 
+            <strong>Status:</strong> Active
+        </div>
+    </div>
+
+    <div class="req">
+        <div class="req-id">SYS-0002</div>
+        <div class="req-title">Export Control Compliance
+</div>
+        <div class="req-text"><strong>Statement:</strong> The system shall comply with all ITAR export control regulations and maintain proper classification markings on all technical data.
+</div>
+        <div class="req-meta">
+            <strong>Rationale:</strong> ITAR compliance is mandatory for defense articles and prevents unauthorized export of controlled technical data.
+<br>
+            <strong>Verification:</strong> Compliance audit review and export control marking verification.
+<br>
+            <span class="itar-badge">ITAR ITAR CONTROLLED</span>
+            <strong>Export Control:</strong> EAR99 | 
+            <strong>Status:</strong> Active
+        </div>
+    </div>
+
+    <div class="req">
+        <div class="req-id">SYS-0003</div>
+        <div class="req-title">Real-Time Performance
+</div>
+        <div class="req-text"><strong>Statement:</strong> The system shall process flight control commands within 10 milliseconds to ensure safe aircraft operation.
+</div>
+        <div class="req-meta">
+            <strong>Rationale:</strong> Real-time performance is critical for flight safety and mission effectiveness.
+<br>
+            <strong>Verification:</strong> Timing analysis and performance testing under worst-case conditions.
+<br>
+            <span class="itar-badge">ITAR ITAR CONTROLLED</span>
+            <strong>Export Control:</strong> EAR99 | 
+            <strong>Status:</strong> Active
+        </div>
+    </div>
+
+    <div class="req">
+        <div class="req-id">SYS-0004</div>
+        <div class="req-title">Secure Communications
+</div>
+        <div class="req-text"><strong>Statement:</strong> The system shall provide secure encrypted communications for command and control data transmission.
+</div>
+        <div class="req-meta">
+            <strong>Rationale:</strong> Secure communications prevent interception and ensure mission security.
+<br>
+            <strong>Verification:</strong> Security testing and cryptographic validation.<br>
+            <span class="itar-badge">ITAR ITAR CONTROLLED</span>
+            <strong>Export Control:</strong> EAR99 | 
+            <strong>Status:</strong> Active
+        </div>
+    </div>
+
+    <div class="req">
+        <div class="req-id">SYS-0005</div>
+        <div class="req-title">Data Recording and Audit Trail
+</div>
+        <div class="req-text"><strong>Statement:</strong> The system shall record all mission data and maintain a complete audit trail of system operations for post-mission analysis and compliance.
+</div>
+        <div class="req-meta">
+            <strong>Rationale:</strong> Data recording supports mission analysis and provides audit trail for ITAR compliance verification.
+<br>
+            <strong>Verification:</strong> Data recording testing and audit trail validation.<br>
+            <span class="itar-badge">ITAR ITAR CONTROLLED</span>
+            <strong>Export Control:</strong> EAR99 | 
+            <strong>Status:</strong> Active
+        </div>
+    </div>
+
+    <h2>Software Requirements (SRD)</h2>
+
+    <div class="req">
+        <div class="req-id">SRD-0001</div>
+        <div class="req-title">Flight Control Software Module
+</div>
+        <div class="req-text"><strong>Statement:</strong> The software shall implement flight control algorithms for aircraft stabilization and maneuver control.
+</div>
+        <div class="req-meta">
+            <strong>Parent:</strong> <a href='#sys-{'sys-0001': 'v1uwi6nu31pakf2joa5njnjrd8ynozktpecbtp3abcw='}' class='link'>{'SYS-0001': 'V1UWi6nU31pakf2joA5njnJrD8YNOZktpeCBTP3Abcw='}</a><br>
+            <strong>Rationale:</strong> Flight control software decomposes SYS-0001 mission computing requirement into implementable software components.
+<br>
+            <strong>Verification:</strong> Software unit testing and integration testing with flight control hardware.
+<br>
+            <span class="itar-badge">ITAR ITAR CONTROLLED</span>
+            <strong>Export Control:</strong> EAR99 | 
+            <strong>Status:</strong> Active
+        </div>
+    </div>
+
+    <div class="req">
+        <div class="req-id">SRD-0002</div>
+        <div class="req-title">Navigation Software Module
+</div>
+        <div class="req-text"><strong>Statement:</strong> The software shall provide navigation algorithms for position determination and route planning.
+</div>
+        <div class="req-meta">
+            <strong>Parent:</strong> <a href='#sys-{'sys-0001': 'v1uwi6nu31pakf2joa5njnjrd8ynozktpecbtp3abcw='}' class='link'>{'SYS-0001': 'V1UWi6nU31pakf2joA5njnJrD8YNOZktpeCBTP3Abcw='}</a><br>
+            <strong>Rationale:</strong> Navigation software decomposes SYS-0001 mission computing requirement.
+<br>
+            <strong>Verification:</strong> Navigation algorithm testing and accuracy validation.<br>
+            <span class="itar-badge">ITAR ITAR CONTROLLED</span>
+            <strong>Export Control:</strong> EAR99 | 
+            <strong>Status:</strong> Active
+        </div>
+    </div>
+
+    <div class="req">
+        <div class="req-id">SRD-0003</div>
+        <div class="req-title">ITAR Classification Marking
+</div>
+        <div class="req-text"><strong>Statement:</strong> All software modules shall include ITAR classification metadata in source code headers and documentation.
+</div>
+        <div class="req-meta">
+            <strong>Parent:</strong> <a href='#sys-{'sys-0002': 'ghlgsgf3dhxl3cnoz-z3axgtvreo-efkr6kocgiyzdc='}' class='link'>{'SYS-0002': 'ghLGsgF3DhXL3CnoZ-Z3AxGTvreo-EFKR6KoCGIyZdc='}</a><br>
+            <strong>Rationale:</strong> ITAR classification marking implements SYS-0002 export control compliance requirement.
+<br>
+            <strong>Verification:</strong> Code review and automated scanning for classification markings.
+<br>
+            <span class="itar-badge">ITAR ITAR CONTROLLED</span>
+            <strong>Export Control:</strong> EAR99 | 
+            <strong>Status:</strong> Active
+        </div>
+    </div>
+
+    <div class="req">
+        <div class="req-id">SRD-0004</div>
+        <div class="req-title">Real-Time Task Scheduling
+</div>
+        <div class="req-text"><strong>Statement:</strong> The software shall implement a real-time task scheduler that ensures flight control tasks execute within 10 millisecond deadline.
+</div>
+        <div class="req-meta">
+            <strong>Parent:</strong> <a href='#sys-{'sys-0003': '3af8msl_lpzsqkgnlewvzyozv6nnpdlaxeoicaddefk='}' class='link'>{'SYS-0003': '3af8mSL_LpzsQKGNlEWVZYozV6nnPDlaXEOICadDEFk='}</a><br>
+            <strong>Rationale:</strong> Real-time scheduling implements SYS-0003 real-time performance requirement.
+<br>
+            <strong>Verification:</strong> Scheduler timing analysis and worst-case execution time testing.
+<br>
+            <span class="itar-badge">ITAR ITAR CONTROLLED</span>
+            <strong>Export Control:</strong> EAR99 | 
+            <strong>Status:</strong> Active
+        </div>
+    </div>
+
+    <div class="req">
+        <div class="req-id">SRD-0005</div>
+        <div class="req-title">Encryption Library
+</div>
+        <div class="req-text"><strong>Statement:</strong> The software shall provide encryption library functions for secure communications using approved cryptographic algorithms.
+</div>
+        <div class="req-meta">
+            <strong>Parent:</strong> <a href='#sys-{'sys-0004': 'x1qq0irjbdalbxgzgzmmovmeb9wb9tmnbme5ahjc_9w='}' class='link'>{'SYS-0004': 'x1Qq0IrjbdAlBxGZGZmMOvMeB9WB9tMnbmE5AHJC_9w='}</a><br>
+            <strong>Rationale:</strong> Encryption library implements SYS-0004 secure communications requirement.
+<br>
+            <strong>Verification:</strong> Cryptographic algorithm validation and security testing.<br>
+            <span class="itar-badge">ITAR ITAR CONTROLLED</span>
+            <strong>Export Control:</strong> EAR99 | 
+            <strong>Status:</strong> Active
+        </div>
+    </div>
+
+    <div class="req">
+        <div class="req-id">SRD-0006</div>
+        <div class="req-title">Data Logging Service
+</div>
+        <div class="req-text"><strong>Statement:</strong> The software shall provide data logging service that records all system events with timestamps and maintains audit trail.
+</div>
+        <div class="req-meta">
+            <strong>Parent:</strong> <a href='#sys-{'sys-0005': '8q9fnuxp0b8d8ow1z5x_lbmd4dsmbqixfeces29gfco='}' class='link'>{'SYS-0005': '8q9FnUxp0b8d8oW1Z5X_LBMd4dSMBqiXfeceS29GFCo='}</a><br>
+            <strong>Rationale:</strong> Data logging service implements SYS-0005 data recording requirement.<br>
+            <strong>Verification:</strong> Data logging testing and audit trail verification.<br>
+            <span class="itar-badge">ITAR ITAR CONTROLLED</span>
+            <strong>Export Control:</strong> EAR99 | 
+            <strong>Status:</strong> Active
+        </div>
+    </div>
+
+    <h2>Traceability Summary</h2>
+    <table>
+        <tr>
+            <th>Document</th>
+            <th>Requirements</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>SYS</td>
+            <td>5</td>
+            <td>Active</td>
+        </tr>
+        <tr>
+            <td>SRD</td>
+            <td>6</td>
+            <td>All linked to parent SYS requirements</td>
+        </tr>
+        <tr>
+            <td>SDD</td>
+            <td>0</td>
+            <td>Structure ready for future requirements</td>
+        </tr>
+    </table>
+    
+    <h2>Document Structure</h2>
+    <p>All requirements follow DIR (Doorstop Implementation Requirements) specifications:</p>
+    <ul>
+        <li>Proper naming convention: <code>PREFIX-####</code> format</li>
+        <li>Required attributes: rationale, verification_method, ITAR classification</li>
+        <li>Parent-child traceability links established</li>
+        <li>ITAR compliance metadata included</li>
+    </ul>
+    
+    <h2>Navigation</h2>
+    <p>View Doorstop generated HTML:</p>
+    <ul>
+        <li><a href="documents/SYS.html">System Requirements (SYS) - Doorstop Generated</a></li>
+    </ul>
+    </div>
+</body>
+</html>
