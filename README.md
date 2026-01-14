@@ -181,5 +181,3 @@ MIT License - see LICENSE file for details.
 ## Contributing
 
 Contributions are welcome! Please see the main [fast-exif-rs](https://github.com/dapperfu/fast-exif-rs) repository for contribution guidelines.
-# fast-exif-rs-py
-# fast-exif-rs-py
