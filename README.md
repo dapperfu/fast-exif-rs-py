@@ -12,13 +12,19 @@ Reads are the point. There's a writer and a copier; treat them as experimental.
 
 ## Install
 
-Python 3.8+. Building from source also needs Rust 1.70+ and [maturin](https://github.com/PyO3/maturin).
+Python 3.8+. Building from source also needs Rust 1.70+.
 
 ```bash
-pip install maturin
+pip install git+https://github.com/dapperfu/fast-exif-rs-py.git@v0.3.1
+```
+
+From a clone (or an editable install):
+
+```bash
 git clone https://github.com/dapperfu/fast-exif-rs-py.git
 cd fast-exif-rs-py
-maturin develop
+pip install .
+# or: pip install -e .
 ```
 
 `pip install fast-exif-rs-py` is not on PyPI yet.

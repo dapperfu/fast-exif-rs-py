@@ -1,0 +1,36 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "fast-exif-rs-py"
+description = "Python bindings for fast-exif-rs - Fast EXIF reader and writer"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "fast-exif-rs contributors" }]
+keywords = ["exif", "metadata", "image", "video", "python"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Rust",
+    "Topic :: Multimedia :: Graphics",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/dapperfu/fast-exif-rs"
+Repository = "https://github.com/dapperfu/fast-exif-rs-py"
+Documentation = "https://github.com/dapperfu/fast-exif-rs-py"
+
+[tool.maturin]
+module-name = "fast_exif_rs_py"
+features = ["pyo3/extension-module"]
