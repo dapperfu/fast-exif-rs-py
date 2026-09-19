@@ -5,7 +5,7 @@
 
 use pyo3::prelude::*;
 use std::collections::HashMap;
-use fast_exif_reader::{FastExifReader, FastExifWriter, FastExifCopier, ExifError};
+use fast_exif_reader::{FastExifReader, FastExifWriter, FastExifCopier};
 
 /// Python wrapper for FastExifReader
 #[pyclass]
